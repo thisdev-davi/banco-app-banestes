@@ -1,35 +1,60 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
+import { useEffect, useState } from "react";
+import * as dataService from "./services/serviceData";
+import type { Cliente, Conta, Agencia } from "./types";
 
 function App() {
-  const [count, setCount] = useState(0)
+  // comeca com array vazio, set cliente atualiza
+  const [clientes, setClientes] = useState<Cliente[]>([]);
+  const [contas, setContas] = useState<Conta[]>([]);
+  const [agencias, setAgencias] = useState<Agencia[]>([]);
+  
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
+
+  useEffect(() => {
+    const carregarDados = async() => {
+      try{
+        // promisse.all espera todas as promises terminarem
+        const [clientesData, contasData, agenciasData] = await Promise.all([
+          dataService.buscarClientes(),
+          dataService.buscarContas(),
+          dataService.buscarAgencias(),
+        ]);
+
+        setClientes(clientesData);
+        setContas(contasData);
+        setAgencias(agenciasData);
+
+        console.log("Clientes: ", clientesData);
+        console.log("Contas: ", contasData);
+        console.log("Agencias: ", agenciasData);
+      } catch (err){
+        setError("Falha ao carregar os dados! Verifique o console");
+        console.error(err);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    carregarDados();
+  },[]);
+
+  if(loading) {
+    return <h1>Dados sendo carregado...</h1>
+  }
+
+  if(error){
+    return <h1>{error}</h1>
+  }
 
   return (
-    <>
-      <div>
-        <a href="https://vite.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.tsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
-    </>
-  )
+    <div>
+      <h1>Dados Carregados com Sucesso</h1>
+      <p><b>{clientes.length}</b> clientes encontrados</p>
+      <p><b>{contas.length}</b> contas encontradas</p>
+      <p><b>{agencias.length}</b> agencias encontradas</p>
+    </div>
+  );
 }
 
-export default App
+export default App;
