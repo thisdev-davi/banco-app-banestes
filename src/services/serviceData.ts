@@ -11,30 +11,27 @@ async function  buscarDados<T>(url: string, transformador: (item:any)=> T): Prom
     const textCsv = await response.text();
     const parsedData = Papa.parse(textCsv, {
         header: true, // primeira linha é cabecalho
-        dynamicTyping: true, // tenta adivinhar o tipo do dado
         skipEmptyLines: true,
     });
 
-    const dadosLimpos = parsedData.data.filter((item: any): 
-    item is Record<string, any> => item && item.id).map(transformador);
-
+    const dadosLimpos = parsedData.data.filter((item: any) => item && item.id).map(transformador);
     return dadosLimpos;
 }
 
 export const buscarClientes = async(): Promise<Cliente[]> => {
     return buscarDados(URL_CLIENTES, (item) => ({
-        id: String(item.id),
-        cpfCnpj: String(item.cpfCnpj),
+        id: item.id,
+        cpfCnpj: item.cpfCnpj,
         rg: item.rg,
         dataNascimento: new Date(item.dataNascimento), // converter par aum objeto do tipo date
         nome: item.nome,
         nomeSocial: item.nomeSocial,
         email: item.email,
         endereco: item.endereco,
-        rendaAnual: item.rendaAnual,
-        patrimonio: item.patrimonio,
+        rendaAnual: Number(item.rendaAnual) || 0,
+        patrimonio: Number(item.patrimonio) || 0,
         estadoCivil: item.estadoCivil,
-        codigoAgencia: item.codigoAgencia
+        codigoAgencia: Number(item.codigoAgencia) || 0
     }));
 };
 
@@ -43,16 +40,16 @@ export const buscarContas = async(): Promise<Conta[]> => {
         id: String(item.id),
         cpfCnpjCliente: String(item.cpfCnpjCliente),
         tipo: item.tipo,
-        saldo: item.saldo,
-        limiteCredito: item.limiteCredito,
-        creditoDisponivel: item.creditoDisponivel,
+        saldo: Number(item.saldo) || 0,
+        limiteCredito: Number(item.limiteCredito) || 0,
+        creditoDisponivel: Number(item.creditoDisponivel) || 0,
     }))
 };
 
 export const buscarAgencias = async(): Promise<Agencia[]> => {
     return buscarDados(URL_AGENCIAS, (item) => ({
         id: String(item.id),
-        codigo: item.codigo,
+        codigo: Number(item.codigo),
         nome: item.nome,
         endereco: item.endereco,
     }));
