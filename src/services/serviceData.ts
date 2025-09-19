@@ -21,7 +21,7 @@ export const buscarClientes = async (): Promise<Cliente[]> => {
   return obterDados(URL_CLIENTES, (item) => ({
     id: item.id,
     cpfCnpj: item.cpfCnpj,
-    rg: item.rg,
+    rg: item.rg || "Não informado",
     dataNascimento: new Date(item.dataNascimento),
     nome: item.nome,
     nomeSocial: item.nomeSocial,

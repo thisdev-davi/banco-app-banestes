@@ -139,13 +139,14 @@
   border-bottom: 1.3px solid var(--cor-borda);
   font-size: 1.3rem;
   flex-wrap: wrap;
+  align-items: center;
 }
 
 .rotuloDado {
   color: #716E6E;
   font-size: 14px;
   font-weight: 500;
-  margin-right: 10px; 
+  margin-right: 10px;
 }
 
 .valorDado {
