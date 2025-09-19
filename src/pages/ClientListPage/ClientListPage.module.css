@@ -64,6 +64,7 @@
   border-radius: 7px;
   padding: 8px;
   min-width: 160px;
+  z-index: 100;
 }
 
 .itemDropdown { 
@@ -133,6 +134,8 @@
   overflow-x: auto;
   margin-top: 60px;
   -webkit-overflow-scrolling: touch;
+  position: relative;
+  z-index: 1;
 }
 
 .tabela {
