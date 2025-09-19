@@ -1,7 +1,7 @@
-import { Outlet, Link, useLocation } from 'react-router-dom';
-import estilos from './Layout.module.css';
+import { Outlet, Link, useLocation } from "react-router-dom";
+import estilos from "./Layout.module.css";
 import urlLogotipo from "../../assets/logo.svg";
-import urlIconeHome from '../../assets/home.svg'; 
+import urlIconeHome from "../../assets/home.svg"; 
 
 export function Layout() {
   const localizacao = useLocation();
@@ -11,7 +11,9 @@ export function Layout() {
     <div>
       <header className={estilos.cabecalho}>
         <div className={estilos.conteudoCabecalho}>
-          <img src={urlLogotipo} className={estilos.logotipo} alt="Logotipo" />
+          <Link to="/" title="Ir para a página inicial">
+            <img src={urlLogotipo} className={estilos.logotipo} alt="Logotipo - Início" />
+          </Link>
           
           {!ePaginaInicial && (
             <Link to="/" className={estilos.linkHome} title="Voltar para a página inicial">
