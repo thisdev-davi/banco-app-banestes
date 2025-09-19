@@ -3,7 +3,9 @@ import { useParams } from "react-router-dom";
 import type { Cliente, Conta, Agencia } from "../../types";
 import { buscarClientes, buscarContas, buscarAgencias } from "../../services/serviceData";
 import styles from "./ClientDetailPage.module.css";
-import iconeUsuario from '../../assets/user.svg';
+import iconeUsuario from "../../assets/user.svg";
+import logoFundo from "../../assets/logoFundo.svg";
+import { formatarValor } from "../../utils/formatters";
 
 export function ClientDetailPage() {
     const { id } = useParams<{ id: string }>();
@@ -50,7 +52,7 @@ export function ClientDetailPage() {
         <div className={styles.containerPagina}>
             <header className={styles.cabecalho}>
                 <div className={styles.identificadorCliente}>
-                    <img src={iconeUsuario} alt="Ícone do cliente" className={styles.iconeUsuario} />
+                    <img src={iconeUsuario} alt="Icone do cliente" className={styles.iconeUsuario} />
                     <h1 className={styles.nomeCliente}>{cliente.nome}</h1>
                 </div>
 
@@ -68,22 +70,29 @@ export function ClientDetailPage() {
             </header>
 
             <section className={styles.secaoContas}>
-                {contas.map((conta, index) => (
-                    <div key={conta.id} className={`${styles.cartaoConta} ${index === 0 ? styles.primario : ''}`}>
-                        <h2 className={styles.tituloCartao}>{conta.tipo}</h2>
-                        <p className={styles.saldoCartao}>R$ {conta.saldo.toFixed(2).replace('.', ',')}</p>
-                        <div className={styles.rodapeCartao}>
-                            <div>
-                                <div className={styles.rodapeCartaoLabel}>Limite de Crédito</div>
-                                <div className={styles.rodapeCartaoValor}>R$ {conta.limiteCredito.toFixed(2).replace('.', ',')}</div>
-                            </div>
-                            <div>
-                                <div className={styles.rodapeCartaoLabel}>Crédito Disponível</div>
-                                <div className={styles.rodapeCartaoValor}>R$ {conta.creditoDisponivel.toFixed(2).replace('.', ',')}</div>
+                {contas.length > 0 ? (
+                    contas.map((conta, index) => (
+                        <div key={conta.id} className={`${styles.cartaoConta} ${index === 0 ? styles.primario : ''}`}>
+                            <h2 className={styles.tituloCartao}>{conta.tipo}</h2>
+                            <p className={styles.saldoCartao}>{formatarValor(conta.saldo)}</p>
+                            <div className={styles.rodapeCartao}>
+                                <div>
+                                    <div className={styles.rodapeCartaoLabel}>Limite de Crédito</div>
+                                    <div className={styles.rodapeCartaoValor}>{formatarValor(conta.limiteCredito)}</div>
+                                </div>
+                                <div>
+                                    <div className={styles.rodapeCartaoLabel}>Crédito Disponível</div>
+                                    <div className={styles.rodapeCartaoValor}>{formatarValor(conta.creditoDisponivel)}</div>
+                                </div>
                             </div>
                         </div>
+                    ))
+                ) : (
+                    <div className={`${styles.cartaoConta} ${styles.cartaoVazio}`}>
+                      <img src={logoFundo} className={styles.iconeFundoCartao} alt="" />
+                      <p className={styles.textoCartaoVazio}>Sem conta corrente/poupança</p>
                     </div>
-                ))}
+                )}
             </section>
 
             <section>
@@ -98,7 +107,7 @@ export function ClientDetailPage() {
                 </div>
                 <div className={styles.linhaDado}>
                     <span className={styles.rotuloDado}>DATA DE NASC.</span>
-                    <span className={styles.valorDado}>{cliente.dataNascimento.toLocaleDateString('pt-BR')}</span>
+                    <span className={styles.valorDado}>{cliente.dataNascimento.toLocaleDateString("pt-BR")}</span>
                 </div>
                 <div className={styles.linhaDado}>
                     <span className={styles.rotuloDado}>EMAIL</span>
@@ -114,11 +123,11 @@ export function ClientDetailPage() {
                 </div>
                 <div className={styles.linhaDado}>
                     <span className={styles.rotuloDado}>RENDA ANUAL</span>
-                    <span className={styles.valorDado}>R$ {cliente.rendaAnual.toFixed(2).replace('.', ',')}</span>
+                    <span className={styles.valorDado}>{formatarValor(cliente.rendaAnual)}</span>
                 </div>
                 <div className={styles.linhaDado}>
                     <span className={styles.rotuloDado}>PATRIMÔNIO</span>
-                    <span className={styles.valorDado}>R$ {cliente.patrimonio.toFixed(2).replace('.', ',')}</span>
+                    <span className={styles.valorDado}>{formatarValor(cliente.patrimonio)}</span>
                 </div>
                 <div className={styles.linhaDado}>
                     <span className={styles.rotuloDado}>CÓDIGO AGÊNCIA</span>

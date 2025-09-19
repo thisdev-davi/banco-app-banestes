@@ -6,7 +6,7 @@ import { COLUNAS, type ChaveColuna } from "./columns";
 import styles from "./ClientListPage.module.css";
 import iconeFiltro from "../../assets/filter.svg";
 import iconeBusca from "../../assets/search.svg";
-import { normalizarTexto } from "../../utils/formatters";
+import { normalizarTexto, formatarValor } from "../../utils/formatters";
 
 const ITENS_POR_PAGINA = 10;
 type VisibilidadeColunas = Record<ChaveColuna, boolean>;
@@ -14,16 +14,13 @@ type VisibilidadeColunas = Record<ChaveColuna, boolean>;
 const formatarValorCelula = (cliente: Cliente, chave: ChaveColuna) => {
   const valor = cliente[chave];
   switch (chave) {
-    case 'dataNascimento':
-      return (valor as Date).toLocaleDateString('pt-BR');
-    case 'rendaAnual':
-    case 'patrimonio':
-      return (valor as number).toLocaleString('pt-BR', {
-        style: 'currency',
-        currency: 'BRL',
-      });
+    case "dataNascimento":
+      return (valor as Date).toLocaleDateString("pt-BR");
+    case "rendaAnual":
+    case "patrimonio":
+      return formatarValor(valor as number);
     default:
-      return String(valor ?? '-');
+      return String(valor ?? "-");
   }
 };
 
@@ -89,7 +86,7 @@ export function ClientListPage() {
       <div className={styles.controles}>
         <div style={{ position: "relative" }} ref={refDropdown}>
           <button onClick={() => setDropdownAberto(!dropdownAberto)} className={styles.botaoFiltro}>
-            <img src={iconeFiltro} alt="Filtrar" style={{ height: '1em', filter: 'brightness(0) invert(1)' }} />
+            <img src={iconeFiltro} alt="Filtrar" style={{ height: "1rem", filter: "brightness(0) invert(1)" }} />
             Filtro
           </button>
           {dropdownAberto && (
