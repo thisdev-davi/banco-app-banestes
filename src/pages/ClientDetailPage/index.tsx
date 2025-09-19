@@ -1,98 +1,130 @@
 import { useEffect, useState } from "react";
-import { useParams, Link } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import type { Cliente, Conta, Agencia } from "../../types";
 import { buscarClientes, buscarContas, buscarAgencias } from "../../services/serviceData";
+import styles from "./ClientDetailPage.module.css";
+import iconeUsuario from '../../assets/user.svg';
 
-export function ClientDetailPage(){
+export function ClientDetailPage() {
     const { id } = useParams<{ id: string }>();
     const [cliente, setCliente] = useState<Cliente | null>(null);
     const [contas, setContas] = useState<Conta[]>([]);
     const [agencia, setAgencia] = useState<Agencia | null>(null);
-
-    const [loading, setLoading] = useState(true);
-    const [error, setError] = useState<string | null>(null);
+    const [carregando, setCarregando] = useState(true);
+    const [erro, setErro] = useState<string | null>(null);
 
     useEffect(() => {
-        const carregarDadosDetalhados = async() => {
+        const carregarDadosDetalhados = async () => {
             if (!id) return;
-
-            try{
-                const [clientesData, contasData, agenciasData] = await Promise.all([
+            try {
+                const [dadosClientes, dadosContas, dadosAgencias] = await Promise.all([
                    buscarClientes(),
                    buscarContas(),
                    buscarAgencias()
                 ]);
 
-                const clienteEncontrado = clientesData.find(cliente => cliente.id === id);
+                const clienteEncontrado = dadosClientes.find(c => c.id === id);
                 if (!clienteEncontrado) throw new Error("Cliente não encontrado!");
 
-                const contasDoCliente = contasData.filter(
-                    conta => conta.cpfCnpjCliente === clienteEncontrado.cpfCnpj
-                );
-                const agenciaDoCliente = agenciasData.find(
-                    agencia => agencia.codigo === clienteEncontrado.codigoAgencia
-                );
+                const contasDoCliente = dadosContas.filter(c => c.cpfCnpjCliente === clienteEncontrado.cpfCnpj);
+                const agenciaDoCliente = dadosAgencias.find(a => a.codigo === clienteEncontrado.codigoAgencia);
 
                 setCliente(clienteEncontrado);
                 setContas(contasDoCliente);
                 setAgencia(agenciaDoCliente || null);
-            } catch (error) {
-                setError("Falha ao carregar os detalhes do cliente!");
-                console.error(error);
+            } catch (err) {
+                setErro("Falha ao carregar os detalhes do cliente.");
+                console.error(err);
             } finally {
-                setLoading(false);
+                setCarregando(false);
             }
         };
         carregarDadosDetalhados();
     }, [id]);
 
-    if (loading) return <h1>Carregando detalhes do cliente...</h1>;
-    if (error) return <h1>{error}</h1>;
-    if (!cliente) return <h1>Cliente não encontrado!</h1>;
+    if (carregando) return <h1>Carregando detalhes do cliente...</h1>;
+    if (erro) return <h1>{erro}</h1>;
+    if (!cliente) return <h1>Cliente não encontrado.</h1>;
 
-    return(
-        <div>
-            <Link to = "/">&larr; Voltar para a lista!</Link>
-            <h1 style={{ borderBottom: '2px solid #eee', paddingBottom: '10px' }}>
-                Detalhes de {cliente.nome}
-            </h1>
-
-            {/* dados pessoais */}
-            <div style={{ marginBottom: '30px' }}>
-                <h2>Dados Pessoais</h2>
-                <p><strong>Nome Social:</strong> {cliente.nomeSocial || 'N/A'}</p>
-                <p><strong>CPF/CNPJ:</strong> {cliente.cpfCnpj}</p>
-                <p><strong>RG:</strong> {cliente.rg}</p>
-                <p><strong>Email:</strong> {cliente.email}</p>
-                <p><strong>Endereço:</strong> {cliente.endereco}</p>
-                <p><strong>Data de Nascimento:</strong> {cliente.dataNascimento.toLocaleDateString()}</p>
-            </div>
-
-            {/* dados de contas */}
-            <div style={{ marginBottom: '30px' }}>
-                <h2>Contas</h2>
-                {contas.length > 0 ? (
-                    contas.map(conta => (
-                        <div key={conta.id} style={{ border: '1px solid #ccc', padding: '10px', marginBottom: '10px', borderRadius: '5px' }}>
-                            <p><strong>Tipo:</strong> {conta.tipo}</p>
-                            <p><strong>Saldo:</strong> R$ {conta.saldo.toFixed(2)}</p>
-                            <p><strong>Limite de Crédito:</strong> R$ {conta.limiteCredito.toFixed(2)}</p>
-                        </div>
-                    ))
-                ) : (
-                    <p>Nenhuma conta encontrada para este cliente.</p>
-                )}
-            </div>
-
-            {/* agencia */}
-            {agencia && (
-                <div>
-                    <h2>Agência</h2>
-                    <p><strong>Nome da Agência:</strong> {agencia.nome}</p>
-                    <p><strong>Código:</strong> {agencia.codigo}</p>
-                    <p><strong>Endereço:</strong> {agencia.endereco}</p>
+    return (
+        <div className={styles.containerPagina}>
+            <header className={styles.cabecalho}>
+                <div className={styles.identificadorCliente}>
+                    <img src={iconeUsuario} alt="Ícone do cliente" className={styles.iconeUsuario} />
+                    <h1 className={styles.nomeCliente}>{cliente.nome}</h1>
                 </div>
-            )}
+
+                {agencia && (
+                    <div className={styles.infoAgencia}>
+                        {agencia.nome.toUpperCase()}
+                    </div>
+                )}
+                
+                {agencia && (
+                    <div className={styles.infoAgencia}>
+                        CÓDIGO: {agencia.codigo}
+                    </div>
+                )}
+            </header>
+
+            <section className={styles.secaoContas}>
+                {contas.map((conta, index) => (
+                    <div key={conta.id} className={`${styles.cartaoConta} ${index === 0 ? styles.primario : ''}`}>
+                        <h2 className={styles.tituloCartao}>{conta.tipo}</h2>
+                        <p className={styles.saldoCartao}>R$ {conta.saldo.toFixed(2).replace('.', ',')}</p>
+                        <div className={styles.rodapeCartao}>
+                            <div>
+                                <div className={styles.rodapeCartaoLabel}>Limite de Crédito</div>
+                                <div className={styles.rodapeCartaoValor}>R$ {conta.limiteCredito.toFixed(2).replace('.', ',')}</div>
+                            </div>
+                            <div>
+                                <div className={styles.rodapeCartaoLabel}>Crédito Disponível</div>
+                                <div className={styles.rodapeCartaoValor}>R$ {conta.creditoDisponivel.toFixed(2).replace('.', ',')}</div>
+                            </div>
+                        </div>
+                    </div>
+                ))}
+            </section>
+
+            <section>
+                <h2 className={styles.tituloDadosPessoais}>Dados Pessoais:</h2>
+                <div className={styles.linhaDado}>
+                    <span className={styles.rotuloDado}>CPF/CNPJ</span>
+                    <span className={styles.valorDado}>{cliente.cpfCnpj}</span>
+                </div>
+                <div className={styles.linhaDado}>
+                    <span className={styles.rotuloDado}>RG</span>
+                    <span className={styles.valorDado}>{cliente.rg}</span>
+                </div>
+                <div className={styles.linhaDado}>
+                    <span className={styles.rotuloDado}>DATA DE NASC.</span>
+                    <span className={styles.valorDado}>{cliente.dataNascimento.toLocaleDateString('pt-BR')}</span>
+                </div>
+                <div className={styles.linhaDado}>
+                    <span className={styles.rotuloDado}>EMAIL</span>
+                    <span className={styles.valorDado}>{cliente.email}</span>
+                </div>
+                <div className={styles.linhaDado}>
+                    <span className={styles.rotuloDado}>ENDEREÇO</span>
+                    <span className={styles.valorDado}>{cliente.endereco}</span>
+                </div>
+                <div className={styles.linhaDado}>
+                    <span className={styles.rotuloDado}>ESTADO CIVIL</span>
+                    <span className={styles.valorDado}>{cliente.estadoCivil}</span>
+                </div>
+                <div className={styles.linhaDado}>
+                    <span className={styles.rotuloDado}>RENDA ANUAL</span>
+                    <span className={styles.valorDado}>R$ {cliente.rendaAnual.toFixed(2).replace('.', ',')}</span>
+                </div>
+                <div className={styles.linhaDado}>
+                    <span className={styles.rotuloDado}>PATRIMÔNIO</span>
+                    <span className={styles.valorDado}>R$ {cliente.patrimonio.toFixed(2).replace('.', ',')}</span>
+                </div>
+                <div className={styles.linhaDado}>
+                    <span className={styles.rotuloDado}>CÓDIGO AGÊNCIA</span>
+                    <span className={styles.valorDado}>{cliente.codigoAgencia}</span>
+                </div>
+            </section>
         </div>
     );
 }

@@ -1,0 +1,220 @@
+.controles {
+  display: flex;
+  gap: 16px;
+  margin-bottom: 24px;
+  align-items: center;
+  justify-content: center;
+}
+
+.botaoFiltro { 
+  padding: 12px 16px;
+  background-color: var(--cor-primaria);
+  border: none;
+  border-radius: 7px;
+  color: white;
+  cursor: pointer;
+  font-size: 1rem;
+  font-weight: 500;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  transition: background-color 0.2s; 
+}
+
+.botaoFiltro:hover { 
+  background-color: var(--cor-primaria-hover);
+}
+
+.containerBusca { 
+  position: relative;
+  width: 350px;
+}
+
+.campoBusca {
+  width: 100%; 
+  padding: 10px 40px 10px 14px;
+  border: 2px solid var(--cor-primaria);
+  border-radius: 7px;
+  font-size: 1rem;
+  box-sizing: border-box;
+}
+
+.campoBusca::placeholder {
+  color: #716E6E;
+  font-size: 15px;
+  font-weight: 500;
+}
+
+.iconeBusca {
+  position: absolute;
+  right: 14px;
+  top: 50%; 
+  transform: translateY(-50%);
+  height: 20px; 
+  width: 20px;
+}
+
+.menuDropdown { 
+  position: absolute;
+  top: 100%;
+  left: 0;
+  margin-top: 8px;
+  background-color: var(--cor-primaria);
+  color: white;
+  border-radius: 7px;
+  padding: 8px;
+  min-width: 160px;
+}
+
+.itemDropdown { 
+  display: block; position: relative; 
+  padding: 8px 8px 8px 40px; 
+  margin-bottom: 3px; 
+  cursor: pointer; 
+  font-size: 0.9rem;
+  font-weight: 500;
+  border-radius: 3px;
+  user-select: none;
+}
+
+.itemDropdown:hover {
+  background-color: var(--cor-primaria-hover);
+}
+
+.itemDropdown input {
+  position: absolute;
+  opacity: 0;
+  cursor: pointer;
+  height: 0;
+  width: 0;
+}
+
+.marcadorCheckbox { 
+  position: absolute;
+  top: 50%;
+  left: 8px;
+  transform: translateY(-50%);
+  height: 18px;
+  width: 18px;
+  background-color: transparent;
+  border: 2px solid white;
+  border-radius: 7px; 
+  transition: all 0.2s;
+}
+
+.itemDropdown input:checked ~ .marcadorCheckbox {
+  background-color: white;
+  border-color: white;
+}
+
+.marcadorCheckbox:after {
+  content: "";
+  position: absolute;
+  display: none;
+}
+
+.itemDropdown input:checked ~ .marcadorCheckbox:after {
+  display: block;
+}
+
+.itemDropdown .marcadorCheckbox:after {
+  left: 5px;
+  top: 1px;
+  width: 5px;
+  height: 10px;
+  border: solid var(--cor-primaria);
+  border-width: 0 3px 3px 0;
+  transform: rotate(45deg);
+}
+
+.containerTabela {
+  display: block;
+  width: 100%;
+  overflow-x: auto;
+  margin-top: 60px;
+  -webkit-overflow-scrolling: touch;
+}
+
+.tabela {
+  width: 100%;
+  border-collapse: collapse;
+  min-width: 900px;
+}
+
+.cabecalhoTabela th {
+  padding: 12px 16px;
+  background-color: #f4f7fa;
+  color: var(--cor-texto-secundario);
+  text-align: left;
+  font-weight: 600;
+  font-size: 0.875rem;
+  text-transform: uppercase;
+  white-space: nowrap;
+}
+
+.linhaTabela:hover {
+  background-color: #f7fafc;
+}
+
+.celulaTabela {
+  padding: 12px 16px;
+  border-top: 1px solid var(--cor-borda);
+  white-space: nowrap;
+}
+
+.paginacao {
+  margin-top: 60px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 16px;
+}
+
+.paginacao span {
+  color: #716E6E;
+  font-size: 15px;
+  font-weight: 500;
+}
+
+.paginacao button {
+  padding: 10px 20px;
+  background-color: var(--cor-primaria);
+  border: none;
+  border-radius: 7px;
+  color: white;
+  cursor: pointer;
+  font-weight: 500;
+  transition: background-color 0.2s;
+}
+
+.paginacao button:disabled {
+  background-color: var(--cor-borda);
+  cursor: not-allowed;
+}
+
+.paginacao button:not(:disabled):hover {
+  background-color: var(--cor-primaria-hover);
+}
+
+@media (max-width: 768px) {
+  .controles {
+    flex-direction: column;
+    align-items: stretch;
+  }
+  .containerBusca {
+    margin-top: -8px;
+    width: 100%;
+  }
+  .containerTabela {
+    margin-top: 40px;
+    max-width: 100%;
+    margin-left: 0;
+    margin-right: 0;
+  }
+  .botaoFiltro { 
+    margin-top: -10px;
+  }
+  .paginacao {
+    margin-top: 50px;
+  }
+}

@@ -1,24 +1,31 @@
-import React from "react"
-import ReactDOM from "react-dom/client"
-import './index.css'
-import App from './App.tsx'
+import React from "react";
+import ReactDOM from "react-dom/client";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
-import { ClientDetailPage } from "./pages/ClientDetailPage/index.tsx";
+import "./index.css";
 
-const router = createBrowserRouter([
+import { Layout } from "./components/Layout";
+import { ClientListPage } from "./pages/ClientListPage";
+import { ClientDetailPage } from "./pages/ClientDetailPage";
+
+const roteador = createBrowserRouter([
   {
     path: "/",
-    element: <App/>
+    element: <Layout />,
+    children: [
+      {
+        path: "/",
+        element: <ClientListPage />,
+      },
+      {
+        path: "/cliente/:id",
+        element: <ClientDetailPage />,
+      },
+    ]
   },
-
-  {
-    path: "/cliente/:id",
-    element: <ClientDetailPage/>
-  }
 ]);
 
 ReactDOM.createRoot(document.getElementById('root')!).render(
   <React.StrictMode>
-    <RouterProvider router={router}/>
-  </React.StrictMode>,
-)
+    <RouterProvider router={roteador} />
+  </React.StrictMode>
+);

@@ -1,0 +1,140 @@
+  .containerPagina {
+    padding: 16px;
+  }
+
+  .cabecalho {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding-bottom: 24px;
+    margin-bottom: 5px;
+  }
+
+  .identificadorCliente {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    color: var(--cor-primaria);
+  }
+
+  .iconeUsuario {
+    height: 40px;
+    width: 40px;
+    filter: invert(19%) sepia(87%) saturate(1915%) hue-rotate(205deg) brightness(91%) contrast(98%);
+  }
+
+  .nomeCliente {
+    font-size: 24px;
+    font-weight: 700;
+    color: var(--cor-primaria);
+  }
+
+  .infoAgencia {
+    font-size: 14px;
+    color: var(--cor-primaria);
+    font-weight: 500;
+  }
+
+  .secaoContas {
+    display: flex;
+    gap: 24px;
+    margin-bottom: 48px;
+    flex-wrap: wrap;
+  }
+
+  .cartaoConta {
+    flex: 1;
+    padding: 32px;
+    border: 2px solid var(--cor-primaria); 
+    border-radius: 22px;
+    min-width: 300px;
+    max-width: 300px;
+    color: var(--cor-primaria);
+  }
+
+  .cartaoConta.primario {
+    background-color: var(--cor-primaria);
+    color: white;
+    border-color: var(--cor-primaria);
+  }
+
+  .tituloCartao {
+    font-size: 15px;
+    font-weight: 400;
+    margin: 0 0 16px 0;
+    text-transform: capitalize;
+    opacity: 0.9;
+  }
+
+  .saldoCartao {
+    font-size: 2.25rem;
+    font-weight: 500;
+    margin: 0 0 24px 0;
+  }
+
+  .rodapeCartao {
+    display: flex;
+    gap: 32px;
+  }
+
+  .rodapeCartaoLabel {
+    font-size: 13px;
+    color: currentColor;
+    opacity: 0.7;
+  }
+
+  .rodapeCartaoValor {
+    font-size: 15px;
+    font-weight: 500;
+    color: currentColor;
+    opacity: 0.9;
+  }
+
+  .cartaoConta:not(.primario) .rodapeCartaoLabel,
+  .cartaoConta:not(.primario) .rodapeCartaoValor {
+    color: var(--cor-primaria);
+  }
+
+  .tituloDadosPessoais {
+    font-size: 24px;
+    font-weight: 700;
+    margin-bottom: 2px;
+    color: var(--cor-primaria);
+  }
+
+  .linhaDado {
+    display: flex;
+    padding: 16px 0;
+    border-bottom: 1.3px solid var(--cor-borda);
+    font-size: 1.3rem;
+    flex-wrap: wrap;
+  }
+
+  .rotuloDado {
+    color: #716E6E;
+    font-size: 14px;
+    font-weight: 500;
+    margin-right: 10px; 
+  }
+
+  .valorDado {
+    color: var(--cor-texto-primario);
+    font-weight: 400;
+    font-size: 15px;
+    flex: 1; 
+    word-break: break-word;
+  }
+
+  @media (max-width: 768px) {
+    .cabecalho {
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 16px;
+    }
+    
+    .cartaoConta {
+      max-width: none;
+      width: 100%;
+      box-sizing: border-box;
+    }
+  }
