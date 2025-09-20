@@ -90,7 +90,7 @@ export function ClientDetailPage() {
                 ) : (
                     <div className={`${styles.cartaoConta} ${styles.cartaoVazio}`}>
                       <img src={logoFundo} className={styles.iconeFundoCartao} alt="" />
-                      <p className={styles.textoCartaoVazio}>Sem conta corrente/poupança</p>
+                      <p className={styles.textoCartaoVazio}>Sem conta Corrente/Poupança</p>
                     </div>
                 )}
             </section>
