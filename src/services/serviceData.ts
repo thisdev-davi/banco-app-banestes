@@ -1,9 +1,9 @@
 import Papa from "papaparse";
 import type { Cliente, Conta, Agencia } from "../types";
 
-const URL_CLIENTES = "https://docs.google.com/spreadsheets/d/1PBN_HQOi5ZpKDd63mouxttFvvCwtmY97Tb5if5_cdBA/gviz/tq?tqx=out:csv&sheet=clientes";
-const URL_CONTAS = "https://docs.google.com/spreadsheets/d/1PBN_HQOi5ZpKDd63mouxttFvvCwtmY97Tb5if5_cdBA/gviz/tq?tqx=out:csv&sheet=contas";
-const URL_AGENCIAS = "https://docs.google.com/spreadsheets/d/1PBN_HQOi5ZpKDd63mouxttFvvCwtmY97Tb5if5_cdBA/gviz/tq?tqx=out:csv&sheet=agencias";
+const URL_CLIENTES = "https://docs.google.com/spreadsheets/d/e/2PACX-1vS10p7Znt-90ER9PhFZnWnQjdmvtpFfRuihaMFNh5z7etOkZYWjyU-Y1ssy60CYgqo_CM_cgbgLudhT/pub?output=csv";
+const URL_CONTAS = "https://docs.google.com/spreadsheets/d/e/2PACX-1vRD4s_RS9vGlUKk-OC36WXVjfV-VDxVDq09WFSnyT5CcREh8ycQluWCQevMWYARjXkunyuV9R7Ud1MR/pub?output=csv";
+const URL_AGENCIAS = "https://docs.google.com/spreadsheets/d/e/2PACX-1vTf7giuP_zkBwEzZJmakHKTSe2k2cOt4_a_g2wWAeGRUtsCnHIyzWsXxSVz2ekuyi5QLNcCPNuPQnWd/pub?output=csv";
 
 async function obterDados<T>(url: string, transformar: (item: any) => T): Promise<T[]> {
   const resposta = await fetch(url);
