@@ -1,5 +1,5 @@
 # Banco App Banestes
-Este projeto foi desenvolvido como um **teste técnico para uma vaga de estágio de desenvolvedor no Banestes**. O desafio consistia em construir um sistema utilizando **Vite** e **Fetch API** para o consumo de dados, focando em uma interface funcional e responsiva.
+Este projeto foi desenvolvido como um teste técnico para uma vaga de estágio de desenvolvedor no Banestes. O desafio consistia em construir um sistema utilizando Vite e Fetch API para o consumo de dados, focando em uma interface funcional e responsiva.
 
 ## 1. Pré-requisitos
 * **Node.js** (v18+)
