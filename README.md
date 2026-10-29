@@ -1,22 +1,18 @@
 # Banco App Banestes
-Este projeto foi desenvolvido como um teste técnico para uma vaga de estágio de desenvolvedor no Banestes. O desafio consistia em construir um sistema utilizando Vite e Fetch API para o consumo de dados, focando em uma interface funcional e responsiva.
+Este projeto foi desenvolvido como teste técnico para uma vaga de estágio de desenvolvedor no Banestes. O desafio era construir um sistema com Vite e Fetch API para consumir dados, com foco em uma interface funcional e responsiva.
 
-## 1. Pré-requisitos
-* node.js (v18+)
+A aplicação lista os clientes do banco com busca por nome ou CPF/CNPJ, e mostra o detalhe de cada um com suas contas e agência. Os dados vêm de planilhas do Google Sheets publicadas em CSV e lidas com PapaParse. Feito com React 19, TypeScript e React Router.
+
+## Pré-requisitos
+* Node.js 18+
 * npm
 
-## 2. Instalação e Setup
-Clone o repositório e instale as dependências para rodar o projeto:
-
+## Execução
 ```bash
 git clone https://github.com/thisdev-davi/banco-app-banestes.git
 cd banco-app-banestes
 npm install
-```
-
-## 3. Execução
-Para iniciar o ambiente de desenvolvimento local:
-
-```bash
 npm run dev
 ```
+
+O deploy vai para o GitHub Pages com `npm run build && npm run deploy`.
